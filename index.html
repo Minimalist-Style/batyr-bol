@@ -832,7 +832,26 @@
         // БАТЫР Bol 2.0
         // =====================
         
-        const API_KEY = typeof CONFIG !== 'undefined' ? CONFIG.GEMINI_API_KEY : null;
+        // API Key: check localStorage first, then config file
+        let API_KEY = localStorage.getItem('batyrApiKey') || (typeof CONFIG !== 'undefined' ? CONFIG.GEMINI_API_KEY : null);
+        
+        // Function to prompt for API key
+        function promptApiKey() {
+            const savedKey = localStorage.getItem('batyrApiKey') || '';
+            const key = prompt('🔑 Введите ваш Gemini API ключ:\n(Получить: ai.google.dev)', savedKey);
+            if (key && key.trim()) {
+                localStorage.setItem('batyrApiKey', key.trim());
+                API_KEY = key.trim();
+                alert('✅ Ключ сохранён!');
+                return true;
+            }
+            return false;
+        }
+        
+        // === Mascot Click - Settings ===
+        function mascotClick() {
+            promptApiKey();
+        }
         
         // === Translations ===
         const translations = {
@@ -1239,7 +1258,11 @@
         
         // === Gemini API ===
         async function callGeminiAPI(prompt) {
-            if (!API_KEY) throw new Error("API ключ не найден");
+            if (!API_KEY) {
+                if (!promptApiKey()) {
+                    throw new Error("API ключ не введён. Нажмите на маскота чтобы ввести ключ.");
+                }
+            }
             
             const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${API_KEY}`;
             
