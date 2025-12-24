@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>⚔️ БАТЫР Bol 2.0</title>
     
-    <!-- PWA Tags -->
+    <!-- PWA Tags -->f
     <meta name="theme-color" content="#8B5CF6">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -1264,16 +1264,13 @@
                 }
             }
             
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${API_KEY}`;
+            const url = '/api/gemini';
             
             try {
                 const response = await fetch(url, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: prompt }] }],
-                        generationConfig: { temperature: 0.8, maxOutputTokens: 500 }
-                    })
+                    body: JSON.stringify({ prompt })
                 });
                 
                 if (!response.ok) {
@@ -1411,3 +1408,4 @@
     </script>
 </body>
 </html>
+
